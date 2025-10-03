@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javier Marin - AI Strategy & Research</title>
+    <meta name="description" content="AI Strategy Consultant & Researcher. Transforming organizations through cutting-edge AI research and strategic implementation.">
+
+    <style>
+        :root {
+            --bg-primary: #112358;
+            --bg-secondary: #3C6098;
+            --text-primary: #FBF5F0;
+            --text-secondary: #E6DDD6;
+            --accent-blue: #3C6098;
+            --accent-blue-dark: #112358;
+            --accent-orange: #E48B59;
+            --accent-light: #BFC8D8;
+            --gradient: linear-gradient(135deg, #BFC8D8, #E48B59);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #E6DDD6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .cursor {
+                display: block;
+            }
+            * {
+                cursor: none;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 0;
+            background: rgba(17, 35, 88, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 0;
+            background: rgba(17, 35, 88, 0.98);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            color: #FBF5F0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #E6DDD6;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-links a:hover {
+            color: #E6DDD6;
+        }
+
+        .nav-links a.active {
+            color: #FBF5F0;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #E6DDD6;
+            border-radius: 1px;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+            to {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            width: 25px;
+            height: 20px;
+            justify-content: space-between;
+        }
+
+        .mobile-menu-toggle span {
+            height: 2px;
+            background: var(--text-primary);
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            .logo-text {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            animation: glitch-1 2s infinite;
+            color: #E6DDD6;
+            z-index: -1;
+        }
+
+        .glitch::after {
+            animation: glitch-2 2s infinite;
+            color: var(--accent-blue-dark);
+            z-index: -2;
+        }
+
+        @keyframes glitch-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% {
+                transform: translate(0);
+            }
+            15% {
+                transform: translate(-2px, 2px);
+            }
+            50% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        @keyframes glitch-2 {
+            0%, 20%, 21%, 62%, 63%, 99%, 100% {
+                transform: translate(0);
+            }
+            21% {
+                transform: translate(2px, -2px);
+            }
+            63% {
+                transform: translate(-2px, 2px);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #FBF5F0;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.8s forwards;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: #FBF5F0;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 1.1s forwards;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #BFC8D8;
+            color: #112358;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 1.4s forwards;
+        }
+
+        .hero-cta:hover {
+            background: #E6DDD6;
+            color: #112358;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(230, 221, 214, 0.3);
+        }
+
+        /* Particles Background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #E6DDD6;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                transform: translateY(-10vh) scale(1);
+            }
+            100% {
+                transform: translateY(-10vh) scale(0);
+            }
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            padding: 100px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Welcome Section */
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .welcome-image {
+            max-width: 80%;
+            width: 80%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .welcome-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .welcome-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #FBF5F0;
+            text-align: left;
+        }
+
+        .welcome-content p {
+            font-size: 1.2rem;
+            color: #FBF5F0;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #BFC8D8;
+            color: #112358;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .cta-button:hover {
+            background: #E6DDD6;
+            color: #112358;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(230, 221, 214, 0.3);
+        }
+
+        /* Business Section */
+        .business-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .business-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #FBF5F0;
+        }
+
+        .business-text h3 {
+            color: #FBF5F0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .business-highlights {
+            background: #E6DDD6;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .business-highlights h4 {
+            color: #112358;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .business-highlights ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .business-highlights li {
+            color: #112358;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .business-highlights li::before {
+            content: "→";
+            color: #E6DDD6;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Capabilities Section */
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .capability-card {
+            background: #BFC8D8;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(230, 221, 214, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .capability-card:hover {
+            transform: translateY(-5px);
+            border-color: #E6DDD6;
+            box-shadow: 0 15px 35px rgba(230, 221, 214, 0.1);
+        }
+
+        .capability-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #112358;
+        }
+
+        .capability-card p {
+            color: #112358;
+            line-height: 1.6;
+        }
+
+        /* Book Section */
+        .book-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .book-cover {
+            text-align: center;
+        }
+
+        .book-cover img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .book-cover img:hover {
+            transform: scale(1.05);
+        }
+
+        .book-info h3 {
+            font-size: 2rem;
+            color: #FBF5F0;
+            margin-bottom: 20px;
+        }
+
+        .book-info p {
+            color: #FBF5F0;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .book-downloads {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: #BFC8D8;
+            border: 1px solid #112358;
+            color: #112358;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #E6DDD6;
+            color: #112358;
+            transform: translateY(-2px);
+        }
+
+        .download-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Services Section */
+        .services-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .service-card {
+            background: #BFC8D8;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(230, 221, 214, 0.1);
+            transition: all 0.3s ease;
+            margin: 30px 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #E6DDD6;
+            box-shadow: 0 20px 40px rgba(230, 221, 214, 0.1);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #112358;
+        }
+
+        .service-card .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #112358;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #112358;
+            margin-bottom: 20px;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: #BFC8D8;
+            border: 1px solid rgba(230, 221, 214, 0.2);
+            border-radius: 50px;
+            color: #112358;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: #E6DDD6;
+            color: #112358;
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .contact-info {
+            background: #BFC8D8;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(230, 221, 214, 0.2);
+            margin-top: 30px;
+        }
+
+        .engagement-info {
+            font-size: 0.9rem;
+            color: #112358;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(230, 221, 214, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .business-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .book-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .capabilities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .book-downloads {
+                justify-content: center;
+            }
+
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .welcome-content h2 {
+                font-size: 2rem;
+            }
+
+            .welcome-content p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 50px 0;
+            }
+
+            .service-card {
+                padding: 30px 20px;
+            }
+
+            .capability-card {
+                padding: 25px 20px;
+            }
+
+            .book-downloads {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #0f1e47;
+            padding: 40px 0 30px 0;
+            border-top: 2px solid rgba(251, 245, 240, 0.2);
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left {
+            flex: 1;
+        }
+
+        .copyright {
+            color: #FBF5F0;
+            font-size: 0.9rem;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copyright-icon {
+            width: 16px;
+            height: 16px;
+            fill: #FBF5F0;
+        }
+
+        .ada-compliance {
+            color: #FBF5F0;
+            font-size: 0.8rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(251, 245, 240, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: rgba(251, 245, 240, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            fill: #FBF5F0;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 25px;
+            }
+
+            .footer-left {
+                order: 2;
+            }
+
+            .footer-right {
+                order: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-image">
+                    <img src="images/IMG_6452.JPG" alt="Javier Marin">
+                </div>
+                <span class="logo-text">Javier Marín</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#wellcome">Wellcome</a></li>
+                <li><a href="#business">Business</a></li>
+                <li><a href="#capabilities">Capabilities</a></li>
+                <li><a href="#book">Book</a></li>
+                <li><a href="#investment">Investment</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section (Home) -->
+    <section id="wellcome" class="section">
+        <div class="container">
+            <div class="welcome-header fade-in">
+                <img src="images/Cover2.png" alt="People, not algorithms, determine success" class="welcome-image">
+            </div>
+            <div class="welcome-content fade-in">
+                <h2>Wellcome</h2>
+                <p>I run a solo consulting practice focused on helping startups build better practices as many software companies transition to AI.</p>
+
+                <p>Your talented engineering team deserves to adapt to the AI revolution without replacement. You need a proven approach that transforms your existing team into AI experts. With the right frameworks and guidance, your team can achieve measurable improvements in just 2-3 months.</p>
+
+                <p>You get independence, not dependencies. You get capabilities, not ongoing contracts.</p>
+
+                <a href="#contact" class="cta-button">Schedule a 30-min Strategy Call</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Section -->
+    <section id="business" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">AI Consulting for Engineering Leaders</h2>
+            <div class="business-content">
+                <div class="business-text fade-in">
+                    <h3>Transform your great engineers into great AI engineers</h3>
+                    <p>Your talented engineering team deserves to adapt to the AI revolution without replacement. You need a proven approach that transforms your existing team into AI experts. With the right frameworks and guidance, your team can achieve measurable improvements in just 2-3 months.</p>
+                    <p>You get independence, not dependencies. You get capabilities, not ongoing contracts.</p>
+                </div>
+                <div class="business-highlights fade-in">
+                    <h4>When our engagement ends, you'll have:</h4>
+                    <ul>
+                        <li>Continuous improvement processes - Establish feedback loops that transform user interactions into measurable product enhancements</li>
+                        <li>Accelerated experimentation cycles - Transform weeks of testing into days, enabling 3-5x faster product iteration</li>
+                        <li>Data-driven prioritization framework - Replace intuition with systematic methods to identify the highest-impact AI opportunities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section id="capabilities" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Core Technical Capabilities</h2>
+            <div class="capabilities-grid">
+                <div class="capability-card fade-in">
+                    <h4>Advanced Prompt Engineering & LLM Optimization</h4>
+                    <p>Systematic approaches to prompt design, evaluation, and optimization for production systems. Build reliable, consistent outputs from language models at scale.</p>
+                </div>
+
+                <div class="capability-card fade-in">
+                    <h4>Rapid Prototyping & Validation</h4>
+                    <p>Turn AI concepts into working prototypes in days, not weeks. Validate technical feasibility and business impact before committing to full development cycles.</p>
+                </div>
+
+                <div class="capability-card fade-in">
+                    <h4>Agent Systems Architecture</h4>
+                    <p>Design and implement autonomous AI workflows that handle complex, multi-step processes. From simple task automation to sophisticated reasoning systems.</p>
+                </div>
+
+                <div class="capability-card fade-in">
+                    <h4>Document Extraction & Processing</h4>
+                    <p>Build robust pipelines that transform unstructured documents into structured, actionable data. Handle edge cases and maintain accuracy at scale.</p>
+                </div>
+
+                <div class="capability-card fade-in">
+                    <h4>Hands-on Skills Transfer</h4>
+                    <p>Pair programming sessions and intensive training that builds permanent AI capabilities in your team. No black boxes - your engineers learn to own and extend the systems.</p>
+                </div>
+
+                <div class="capability-card fade-in">
+                    <h4>Systematic Experimentation</h4>
+                    <p>Establish frameworks for continuous AI improvement. Design experiments, measure impact, and systematically optimize your AI applications for business outcomes.</p>
+                </div>
+
+                <div class="capability-card fade-in">
+                    <h4>Strategic Content & Positioning</h4>
+                    <p>Leverage AI expertise for growth and developer relations. Define clear value propositions, create compelling technical content, and build market credibility.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Section -->
+    <section id="book" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Book</h2>
+            <div class="book-content">
+                <div class="book-cover fade-in">
+                    <img src="images/Book.png" alt="A Step by Step Guide to Get Out of AI Hype - Javier Marin">
+                </div>
+                <div class="book-info fade-in">
+                    <h3>A Step by Step Guide to Get Out of AI Hype</h3>
+                    <p>Navigate beyond the AI hype with practical frameworks for strategic technology decisions. This guide provides executives and engineering leaders with systematic approaches to evaluate AI opportunities and build sustainable competitive advantages.</p>
+
+                    <p>Learn how to cut through marketing noise, identify genuine AI applications, and implement solutions that deliver measurable business value. Based on real-world consulting experience with startups and enterprise organizations.</p>
+
+                    <div class="book-downloads">
+                        <a href="https://github.com/Javihaus/A-Step-by-Step-Guide-to-Get-Out-of-AI-Hype/raw/main/A_Step_by_Step_Guide_to_Get_Out_of_AI_Hype_final.pdf" target="_blank" class="download-btn">
+                            <svg class="download-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                            Download PDF
+                        </a>
+                        <a href="https://github.com/Javihaus/A-Step-by-Step-Guide-to-Get-Out-of-AI-Hype/raw/main/A_Step_by_Step_Guide_to_Get_Out_of_AI_Hype.epub" target="_blank" class="download-btn">
+                            <svg class="download-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                            Download EPUB
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Section -->
+    <section id="investment" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Investment Options</h2>
+            <div class="services-content">
+                <div class="service-card fade-in">
+                    <h3>Monthly Advisory</h3>
+                    <div class="price">$15,000<span style="font-size: 1rem; color: #FBF5F0;">/month</span></div>
+                    <p>Weekly strategy sessions, unlimited access, for teams with ongoing needs</p>
+                    <a href="#contact" class="cta-button">Schedule a 30-min Strategy Call</a>
+                </div>
+
+                <div class="fade-in" style="text-align: center; margin-top: 40px;">
+                    <p style="color: #FBF5F0; font-size: 1.1rem; margin-bottom: 20px;">
+                        For anything larger than the advisory work, my minimum level of engagement is $50,000. If you're interested in learning more about that, feel free to send me an email.
+                    </p>
+                    <p style="color: #FBF5F0;">
+                        Need something more focused? Check out my specialized training programs for specific implementation techniques.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Transform your great engineers into great AI engineers</h2>
+            <div class="contact-content fade-in">
+                <p style="font-size: 1.2rem; margin-bottom: 30px; color: #FBF5F0;">
+                    Your talented engineering team deserves to adapt to the AI revolution without replacement. You need a proven approach that transforms your existing team into AI experts. With the right frameworks and guidance, your team can achieve measurable improvements in just 2-3 months.
+                </p>
+                <p style="font-size: 1.2rem; margin-bottom: 30px; color: #FBF5F0;">
+                    You get independence, not dependencies. You get capabilities, not ongoing contracts.
+                </p>
+
+                <div class="contact-links">
+                    <a href="mailto:javier@jmarin.info" class="contact-link">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
+                        </svg>
+                        Email
+                    </a>
+                    <a href="https://www.linkedin.com/in/javiermarinvalenzuela/" target="_blank" class="contact-link">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/>
+                        </svg>
+                        LinkedIn
+                    </a>
+                </div>
+
+                <div class="contact-info">
+                    <a href="https://calendly.com/javier-marin-ai/strategy-call" target="_blank" class="cta-button" style="font-size: 1.2rem; padding: 20px 40px;">
+                        Schedule a 30-min Strategy Call
+                    </a>
+
+                    <div class="engagement-info">
+                        <strong>Minimum engagement:</strong> $50,000 • <strong>Typical project:</strong> 3-6 months • <strong>Global clients</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p class="copyright">
+                    <svg class="copyright-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12H15A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9V7Z"/>
+                    </svg>
+                    Copyright 2025 Javier Marín
+                </p>
+                <p class="ada-compliance">This website is ADA compliant and follows accessibility standards</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/javiermarinvalenzuela/" target="_blank" class="social-link" aria-label="LinkedIn Profile">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/Javihaus" target="_blank" class="social-link" aria-label="GitHub Profile">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                    </svg>
+                </a>
+                <a href="https://medium.com/@javier-marin" target="_blank" class="social-link" aria-label="Medium Profile">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13.54,12A6.8,6.8 0 0,1 12.06,17.91L12.06,17.96C9.69,20.35 6.3,20.35 3.94,17.96C1.56,15.58 1.56,12.19 3.94,9.81C6.3,7.44 9.69,7.44 12.06,9.81C12.87,10.63 13.34,11.71 13.54,12M9.8,12C9.8,8.86 7.35,6.34 4.28,6.34C1.21,6.34 -1.24,8.86 -1.24,12C-1.24,15.14 1.21,17.66 4.28,17.66C7.35,17.66 9.8,15.14 9.8,12M16.95,11.7C16.95,9.13 15.96,7.04 14.72,7.04C13.5,7.04 12.5,9.13 12.5,11.7C12.5,14.26 13.5,16.35 14.72,16.35C15.96,16.35 16.95,14.26 16.95,11.7M22.58,11.4C22.58,9.58 22.25,8.1 21.84,8.1C21.43,8.1 21.1,9.58 21.1,11.4C21.1,13.22 21.43,14.7 21.84,14.7C22.25,14.7 22.58,13.22 22.58,11.4Z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navigation active section indicator
+        function updateActiveNavigation() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            if (sections.length === 0 || navLinks.length === 0) return;
+
+            const scrollPosition = window.scrollY + 100; // Offset for better detection
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.id;
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSection = sectionId;
+                }
+            });
+
+            // Remove active class from all nav links
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Add active class to current section's nav link
+            if (currentSection) {
+                const activeLink = document.querySelector(`.nav-links a[href="#${currentSection}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            } else if (window.scrollY < 100) {
+                // If at top of page, make first nav item active
+                navLinks[0]?.classList.add('active');
+            }
+        }
+
+        // Set initial active state
+        updateActiveNavigation();
+
+        // Update active navigation on scroll
+        window.addEventListener('scroll', updateActiveNavigation);
+
+        // Particles animation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particle.style.opacity = Math.random();
+            document.querySelector('.particles').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 5000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Cursor hover effects
+        document.querySelectorAll('a, .service-card, .capability-card, .book-cover img').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursor.style.backgroundColor = '#E6DDD6';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.backgroundColor = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
