@@ -8,4 +8,4 @@ This website showcases AI consulting services, capabilities, and strategic guida
 
 ## Visit
 
-Live website: [jmarin_co.github.io]([https://jmarin_co.github.io/](https://javihaus.github.io/jmarin_co/))
+Live website: [jmarin_co.github.io]([https://javihaus.github.io/jmarin_co/])
