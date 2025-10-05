@@ -385,6 +385,14 @@
             margin-right: auto;
         }
 
+        @media (max-width: 480px) {
+            .welcome-image {
+                max-width: 95%;
+                width: 95%;
+                margin-bottom: 20px;
+            }
+        }
+
         .welcome-content {
             max-width: 800px;
             margin: 0 auto;
@@ -755,6 +763,21 @@
             .book-downloads {
                 flex-direction: column;
                 gap: 15px;
+            }
+
+            .welcome-content h2 {
+                font-size: 1.6rem;
+                line-height: 1.2;
+                margin-bottom: 25px;
+            }
+        }
+
+        /* iPhone 13 and similar screen sizes */
+        @media (max-width: 390px) {
+            .welcome-content h2 {
+                font-size: 1.3rem;
+                line-height: 1.1;
+                margin-bottom: 20px;
             }
         }
 
